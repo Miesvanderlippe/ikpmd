@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Weekly Exercises</string>
+    <string name="switchLayoutTestButton_content">Wissel van layout</string>
+    <string name="activitySwitchActivity_content">Welkom in de nieuwe layout</string>
 </resources>

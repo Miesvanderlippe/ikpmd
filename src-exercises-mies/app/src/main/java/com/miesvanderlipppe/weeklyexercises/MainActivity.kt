@@ -4,15 +4,36 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
+import android.util.Log
 
 
 class MainActivity : AppCompatActivity() {
+    // Constants are only allowed in top-level objects.
+    // This is the way to wrap them according to kotlin docs.
+    companion object {
+        const val PREFS_FILE = "Voorkeuren"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         // Get out button
         val button = findViewById<Button>(R.id.switchLayoutTestButton)
+
+        // Do some settings stuff
+        val settings = getSharedPreferences(MainActivity.PREFS_FILE, 0)
+
+        // We get a settings editor
+        val editor = settings.edit()
+        editor.putString("prefs_test", "This is a test")
+        editor.apply() // Save
+
+        // Read from our preferences
+        val settingsReader = getSharedPreferences(MainActivity.PREFS_FILE, 0)
+        val testRead = settingsReader.getString("prefs_test", "not-set")
+        Log.d("DEBUG", "Found this: %s".format(testRead))
+
         // Set listener
         button.setOnClickListener{
             // Create intent to switch activities

@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         // Get out button
         val button = findViewById<Button>(R.id.switchLayoutTestButton)
+        val switchToEditorButton = findViewById<Button>(R.id.go_to_model_editor_button)
 
         // Do some settings stuff
         val settings = getSharedPreferences(MainActivity.PREFS_FILE, 0)
@@ -33,6 +34,12 @@ class MainActivity : AppCompatActivity() {
         val settingsReader = getSharedPreferences(MainActivity.PREFS_FILE, 0)
         val testRead = settingsReader.getString("prefs_test", "not-set")
         Log.d("DEBUG", "Found this: %s".format(testRead))
+
+        // Go to model demo
+        switchToEditorButton.setOnClickListener{
+            val intent = Intent(this, EnterDetails::class.java)
+            startActivity(intent)
+        }
 
         // Set listener
         button.setOnClickListener{

@@ -2,4 +2,7 @@
     <string name="app_name">Weekly Exercises</string>
     <string name="switchLayoutTestButton_content">Wissel van layout</string>
     <string name="activitySwitchActivity_content">Welkom in de nieuwe layout</string>
+    <string name="saveModelButton_content">Sla je model op</string>
+    <string name="modelEditorTextInput_content">Vul een naam in</string>
+    <string name="goToModelEditorButton_content">Bewerk een model</string>
 </resources>

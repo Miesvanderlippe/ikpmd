@@ -15,6 +15,12 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Button>(R.id.switchLayoutTestButton)
         button.setOnClickListener{
             val intent = Intent(this, SwitchActivityExercise::class.java)
+
+            val b = Bundle()
+            b.putInt("id", 69)
+
+            intent.putExtras(b)
+
             startActivity(intent)
         }
     }

@@ -14,4 +14,5 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="menu_events">Events</string>
+    <string name="menu_single_event">Single Event</string>
 </resources>

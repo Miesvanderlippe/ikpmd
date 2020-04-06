@@ -40,4 +40,16 @@
         android:name="com.miesvanderlippe.stayconnected.ui.send.SendFragment"
         android:label="@string/menu_send"
         tools:layout="@layout/fragment_send" />
+
+    <fragment
+        android:id="@+id/nav_event_list"
+        android:name="com.miesvanderlippe.stayconnected.ui.events.EventsFragment"
+        android:label="@string/menu_events"
+        tools:layout="@layout/fragment_events" />
+
+    <fragment
+        android:id="@+id/nav_expanded_event"
+        android:name="com.miesvanderlippe.stayconnected.ui.events.EventsFragment"
+        android:label="@string/menu_single_event"
+        tools:layout="@layout/fragment_expanded_event" />
 </navigation>

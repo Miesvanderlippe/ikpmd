@@ -1,6 +1,7 @@
 package com.miesvanderlippe.stayconnected.ui.events
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,6 +42,10 @@ class EventsRecyclerViewAdapter(
                 .load(url + rawEvents.events[position].Image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.image)
+
+//            holder.itemView.setOnClickListener {
+//                println("clicked" + position.toString())
+//            }
         }
 
         class ViewHolder: RecyclerView.ViewHolder

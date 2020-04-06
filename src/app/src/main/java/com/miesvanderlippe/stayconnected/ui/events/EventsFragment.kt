@@ -1,5 +1,6 @@
 package com.miesvanderlippe.stayconnected.ui.events
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.EventLog
 import android.view.LayoutInflater
@@ -23,8 +24,6 @@ class EventsFragment: Fragment() {
     private lateinit var eventsViewModel: EventsViewModel
 
     private val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=events"
-    val mNames: ArrayList<String> = ArrayList<String>()
-    val mImageUrls: ArrayList<String> = ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

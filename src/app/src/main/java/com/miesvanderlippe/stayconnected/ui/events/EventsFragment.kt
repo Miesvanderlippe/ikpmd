@@ -17,7 +17,6 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.GsonBuilder
 import kotlinx.android.synthetic.main.fragment_events.*
-import kotlinx.android.synthetic.main.layout_testing_list_item.*
 import org.json.JSONObject
 
 class EventsFragment: Fragment() {
@@ -26,6 +25,7 @@ class EventsFragment: Fragment() {
     private val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=events"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        println("onCreate")
         super.onCreate(savedInstanceState)
     }
 
@@ -34,15 +34,16 @@ class EventsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        println("onCreateView")
         eventsViewModel = ViewModelProviders.of(this).get(EventsViewModel::class.java)
 
-        return inflater.inflate(R.layout.fragment_send, container, false)
+        return inflater.inflate(R.layout.fragment_events, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        println("onViewCreated")
         super.onViewCreated(view, savedInstanceState)
         fetchJSON(view)
-
     }
 
     class RawEvents(
@@ -69,14 +70,13 @@ class EventsFragment: Fragment() {
                 println(responseString)
                 val event = gson.fromJson(responseString, RawEvents::class.java)
                 val adapter = EventsRecyclerViewAdapter(event, view.context)
-                val recyclerView: RecyclerView = view.rootView.findViewById(R.id.testing_recycler_view)
+                val recyclerView: RecyclerView = view.rootView.findViewById(R.id.events_recycler_view)
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(view.context)
             },
             Response.ErrorListener {volleyError ->
                 //Error
                 println(volleyError.message)
-                testing_layout_list_item_name.text = volleyError.message
             }
         )
 

@@ -1,6 +1,8 @@
 package com.miesvanderlippe.stayconnected.login
 
 import android.content.Context
+import android.provider.ContactsContract
+import android.util.Log
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
 import com.android.volley.Response
@@ -14,49 +16,42 @@ import com.miesvanderlippe.stayconnected.storage.DataStorage
 import org.json.JSONObject
 
 class FetchKey (val context: Context, val user: User){
-    private val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=get_token"
+
 
     val status : String = ""
     private var key : String = ""
+    var test = postRequest()
 
-
-    fun postRequest(url: String) {
-
+    fun postRequest() {
+        val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=get_token"
         val queue = Volley.newRequestQueue(context)
 
-        val params = HashMap<String, String>()
-        params["email"] = user.email
-        params["password"] = user.password
-        val jsonObject = JSONObject(params as Map<String, String>)
 
-        val postRequest = JsonObjectRequest(Request.Method.POST, url, jsonObject,
-            Response.Listener { responseString ->
-                println(responseString)
+        val postRequest : StringRequest = object : StringRequest(Request.Method.POST, url,
+            Response.Listener <String> { responseString ->
+                val gson = GsonBuilder().create()
+                val data = gson.fromJson(responseString, apiData::class.java)
+                if (data.success == "true") {
+                    val dataStorage = DataStorage(context, user)
+                    dataStorage.setUserKey(data.token)
+                } else {
+                    Log.d("Auth", "Auth failed!")
+                }
+
             },
             Response.ErrorListener { volleyError ->
                 println(volleyError.message)
-            })
+            }) {
+
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                params["email"] = user.email
+                params["password"] = user.password
+                return params
+            }
+        }
         queue.add(postRequest)
 
     }
-
-//    val stringRequest = StringRequest(
-//        Request.Method.POST,
-//        url,
-//        Response.Listener { responseString ->
-//            println(responseString)
-//            val gson = GsonBuilder().create()
-//            val userToken = gson.fromJson(responseString, apiData::class.java)
-//            if (userToken.success == "true") {
-//                this.key = userToken.token
-//            } else {
-//                println("Auth failed")
-//            }
-//        },
-//        Response.ErrorListener { volleyError ->
-//            println(volleyError.message)
-//        }
-//
-//    )
 
 }

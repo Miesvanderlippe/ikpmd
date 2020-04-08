@@ -1,6 +1,7 @@
 package com.miesvanderlippe.stayconnected.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,17 +38,29 @@ class HomeFragment : Fragment() {
             // WIP
             val user = User(textInputEditTextEmail.text.toString(), "None", textInputEditTextPassword.text.toString())
             if (verifyUser(user, view)) {
-                FetchKey(view.context, user).postRequest()
+                FetchKey(view.context, user).postRequest(::callback)
             }
         }
         val status = CheckLogin(view.context).checkLogin()
         if (!status) {
-            text_input_error.text = getString(R.string.error_failed_auth)
+            //text_input_error.text = getString(R.string.error_failed_auth)
         } else {
-            text_input_error.text = getString(R.string.logged_in)
+            //text_input_error.text = getString(R.string.logged_in)
         }
         super.onViewCreated(view, savedInstanceState)
 
+    }
+
+    private fun callback(result: Boolean)
+    {
+        if(result)
+        {
+            Log.d("LOGIN", "Succes")
+        }
+        else
+        {
+            Log.d("LOGIN", "Niet succes")
+        }
     }
 
     private fun verifyUser(user: User, view: View) : Boolean {

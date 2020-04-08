@@ -15,22 +15,11 @@ import com.miesvanderlippe.stayconnected.modal.apiData
 import com.miesvanderlippe.stayconnected.storage.DataStorage
 import org.json.JSONObject
 
-interface CallbackInterface {
-    fun onCallback(response: Boolean)
-}
+class FetchKey (val context: Context, val user: User) {
 
-class FetchKey (val context: Context, val user: User) : CallbackInterface{
-
-    val myInterface = this
-
-    override fun onCallback(response: Boolean) {
-
-    }
-
-    fun postRequest() {
+    fun postRequest(callback:(result: Boolean) -> Unit) {
         val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=get_token"
         val queue = Volley.newRequestQueue(context)
-
 
         val postRequest : StringRequest = object : StringRequest(Request.Method.POST, url,
             Response.Listener <String> { responseString ->
@@ -39,10 +28,10 @@ class FetchKey (val context: Context, val user: User) : CallbackInterface{
                 val dataStorage = DataStorage(context, user)
                 if (data.success == "true") {
                     dataStorage.setUserKey(data.token)
-                    myInterface.onCallback(true)
+                    callback(true)
                 } else {
                     Log.d("Auth", "Auth failed!")
-                    myInterface.onCallback(false)
+                    callback(false)
                 }
 
             },

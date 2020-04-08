@@ -27,7 +27,7 @@ class FetchKey (val context: Context, val user: User) {
                 val data = gson.fromJson(responseString, apiData::class.java)
                 val dataStorage = DataStorage(context, user)
                 if (data.success == "true") {
-                    dataStorage.setUserKey(data.token)
+                    dataStorage.setUserKey(data.token, user.email, data.user_model.full_name)
                     callback(true)
                 } else {
                     Log.d("Auth", "Auth failed!")

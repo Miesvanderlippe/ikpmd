@@ -13,6 +13,11 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.View
+import com.miesvanderlippe.stayconnected.login.CheckLogin
+import com.miesvanderlippe.stayconnected.modal.User
+import com.miesvanderlippe.stayconnected.storage.DataStorage
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,9 +31,13 @@ class MainActivity : AppCompatActivity() {
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "emptied stored key", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
+            println(CheckLogin(this).getUserName())
+            header_user_name.text = CheckLogin(this).getUserName()
         }
+
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -39,6 +48,7 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_tools, R.id.nav_share, R.id.nav_send), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -50,4 +60,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
 }

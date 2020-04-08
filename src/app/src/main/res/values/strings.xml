@@ -15,7 +15,10 @@
     <string name="menu_send">Send</string>
 
     <string name="error_message_email">Invalid email</string>
+    <string name="login_button">Inloggen</string>
     <string name="wait_on_auth"> </string>
+    <string name="logout_button">Uitloggen</string>
     <string name="error_failed_auth">Invalid credentials</string>
-    <string name="logged_in">Logged in</string>
+    <string name="logged_in">You are logged in</string>
+    <string name="default_login_name">Niemand</string>
 </resources>

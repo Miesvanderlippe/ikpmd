@@ -15,12 +15,17 @@ import com.miesvanderlippe.stayconnected.modal.apiData
 import com.miesvanderlippe.stayconnected.storage.DataStorage
 import org.json.JSONObject
 
-class FetchKey (val context: Context, val user: User){
+interface CallbackInterface {
+    fun onCallback(response: Boolean)
+}
 
+class FetchKey (val context: Context, val user: User) : CallbackInterface{
 
-    val status : String = ""
-    private var key : String = ""
-    var test = postRequest()
+    val myInterface = this
+
+    override fun onCallback(response: Boolean) {
+
+    }
 
     fun postRequest() {
         val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=get_token"
@@ -31,16 +36,18 @@ class FetchKey (val context: Context, val user: User){
             Response.Listener <String> { responseString ->
                 val gson = GsonBuilder().create()
                 val data = gson.fromJson(responseString, apiData::class.java)
+                val dataStorage = DataStorage(context, user)
                 if (data.success == "true") {
-                    val dataStorage = DataStorage(context, user)
                     dataStorage.setUserKey(data.token)
+                    myInterface.onCallback(true)
                 } else {
                     Log.d("Auth", "Auth failed!")
+                    myInterface.onCallback(false)
                 }
 
             },
             Response.ErrorListener { volleyError ->
-                println(volleyError.message)
+                Log.d("Volley Error", volleyError.message)
             }) {
 
             override fun getParams(): Map<String, String> {
@@ -51,6 +58,10 @@ class FetchKey (val context: Context, val user: User){
             }
         }
         queue.add(postRequest)
+
+    }
+
+    fun handleResponse() {
 
     }
 

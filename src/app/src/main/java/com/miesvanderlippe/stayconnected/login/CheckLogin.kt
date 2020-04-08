@@ -9,7 +9,7 @@ class CheckLogin (context: Context) {
 
     val userData = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
-    fun getUserKey(): String? {
+    private fun getUserKey(): String? {
         return userData.getString(PREFERENCE_USER_KEY, "None")
     }
 

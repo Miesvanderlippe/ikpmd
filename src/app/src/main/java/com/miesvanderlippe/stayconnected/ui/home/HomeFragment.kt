@@ -48,7 +48,7 @@ class HomeFragment : Fragment() {
             if (verifyUser(view)) {
                 FetchKey(view.context, user).postRequest(::callback)
                 CheckLogin(view.context).getUserName()
-                CheckLogin(view.context).getUserEmail(::userEmail)
+                CheckLogin(view.context).getUserEmail()
 
             }
         }
@@ -87,6 +87,7 @@ class HomeFragment : Fragment() {
         textInputLayoutPassword.visibility = View.GONE
         appCompatButtonLogin.visibility = View.GONE
         appCompatButtonLogout.visibility = View.VISIBLE
+        text_input_error.text = getString(R.string.wait_on_auth)
 
     }
 

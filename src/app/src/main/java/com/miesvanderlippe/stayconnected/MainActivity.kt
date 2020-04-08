@@ -35,7 +35,7 @@ class UpdateUsernameListener : DrawerLayout.DrawerListener{
         val username = drawerView.findViewById<TextView>(R.id.header_user_name)
         username.text = CheckLogin(drawerView.context).getUserName()
         val email = drawerView.findViewById<TextView>(R.id.header_user_email)
-        email.text = CheckLogin(drawerView.context).getUserName()
+        email.text = CheckLogin(drawerView.context).getUserEmail()
     }
 }
 

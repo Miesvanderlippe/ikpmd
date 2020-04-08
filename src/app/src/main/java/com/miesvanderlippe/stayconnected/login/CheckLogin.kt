@@ -19,14 +19,8 @@ class CheckLogin (context: Context) {
         return userData.getString(PREFERENCE_USER_NAME, "None").toString()
     }
 
-    fun getUserEmail(callback:(userEmail: String) -> Unit) {
-        val useremail = userData.getString(PREFERENCE_USER_EMAIL, "None")
-        if (useremail != null) {
-            callback(useremail)
-        } else {
-            callback("Niemand")
-        }
-
+    fun getUserEmail(): String {
+        return userData.getString(PREFERENCE_USER_EMAIL, "None").toString()
     }
 
 

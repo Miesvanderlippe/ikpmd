@@ -22,6 +22,7 @@ import com.miesvanderlippe.stayconnected.storage.DataStorage
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class UpdateUsernameListener : DrawerLayout.DrawerListener{
+    val LOGKEY = "UpdateUsernameListener"
     override fun onDrawerStateChanged(newState: Int) {
     }
 
@@ -32,10 +33,23 @@ class UpdateUsernameListener : DrawerLayout.DrawerListener{
     }
 
     override fun onDrawerOpened(drawerView: View) {
+        Log.d(LOGKEY, "Drawer opened")
         val username = drawerView.findViewById<TextView>(R.id.header_user_name)
-        username.text = CheckLogin(drawerView.context).getUserName()
         val email = drawerView.findViewById<TextView>(R.id.header_user_email)
-        email.text = CheckLogin(drawerView.context).getUserEmail()
+
+        var newUsername =  CheckLogin(drawerView.context).getUserName()
+        var newEmail = CheckLogin(drawerView.context).getUserEmail()
+
+        // CheckLogin could also just return nonetype, but doesn't. So stringcompare.
+        if(newUsername == "None") {
+            Log.d(LOGKEY, "Setting default texts")
+            username.text = drawerView.context.getString(R.string.default_login_name)
+            email.text = drawerView.context.getString(R.string.default_login_email)
+        } else {
+            Log.d(LOGKEY, "Setting username & email")
+            username.text = newUsername
+            email.text = newEmail
+        }
     }
 }
 
@@ -62,8 +76,7 @@ class MainActivity : AppCompatActivity() {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(setOf(
-            R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-            R.id.nav_tools, R.id.nav_share, R.id.nav_send, R.id.nav_event_list), drawerLayout)
+            R.id.nav_home, R.id.nav_event_list), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 

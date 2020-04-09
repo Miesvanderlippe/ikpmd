@@ -1,31 +1,31 @@
 package com.miesvanderlippe.stayconnected.ui.events
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.EventLog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders.*
 import androidx.recyclerview.widget.RecyclerView
 import com.miesvanderlippe.stayconnected.R
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
+import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
-import com.google.gson.GsonBuilder
-import kotlinx.android.synthetic.main.fragment_events.*
-import org.json.JSONObject
+import com.miesvanderlippe.stayconnected.data.EventDao
+import com.miesvanderlippe.stayconnected.data.EventDao_Impl
+import com.miesvanderlippe.stayconnected.data.StayConDatabase
+import com.miesvanderlippe.stayconnected.repositories.EventData
+import com.miesvanderlippe.stayconnected.repositories.EventRepository
+import com.miesvanderlippe.stayconnected.repositories.RemoteEventRespository
+
 
 class EventsFragment: Fragment() {
     private lateinit var eventsViewModel: EventsViewModel
-
-    private val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=events"
+    private var eventRepository: EventRepository? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        println("onCreate")
         super.onCreate(savedInstanceState)
     }
 
@@ -34,8 +34,7 @@ class EventsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        println("onCreateView")
-        eventsViewModel = ViewModelProviders.of(this).get(EventsViewModel::class.java)
+        eventsViewModel = ViewModelProvider(this).get(EventsViewModel::class.java)
 
         return inflater.inflate(R.layout.fragment_events, container, false)
     }
@@ -43,44 +42,26 @@ class EventsFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         println("onViewCreated")
         super.onViewCreated(view, savedInstanceState)
-        fetchJSON(view)
-    }
 
-    class RawEvents(
-        val events: List<EventData>
-    )
+        val dao = StayConDatabase.getDatabase(view.context).eventDao()
+        eventRepository = EventRepository(viewLifecycleOwner, view.context, dao)
 
-    class EventData(
-        val ID: Int,
-        val ActivityName: String,
-        val activityLocation: String,
-        val Description: String,
-        val EventDateTime: Any,
-        val Image: String
-    )
+        val adapter = EventsRecyclerViewAdapter(view.context)
 
-    fun fetchJSON(view: View) {
-        println("Trying to fetch some data")
-        val gson = GsonBuilder().create()
-        val stringRequest = StringRequest(
-            Request.Method.GET,
-            url,
-            Response.Listener {responseString ->
-                //Response
-                println(responseString)
-                val event = gson.fromJson(responseString, RawEvents::class.java)
-                val adapter = EventsRecyclerViewAdapter(event, view.context)
-                val recyclerView: RecyclerView = view.rootView.findViewById(R.id.events_recycler_view)
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager = LinearLayoutManager(view.context)
-            },
-            Response.ErrorListener {volleyError ->
-                //Error
-                println(volleyError.message)
+        eventRepository!!.allEvents.observe(viewLifecycleOwner, Observer { allEvents ->
+            // Update the cached copy of the words in the adapter.
+            allEvents?.let {eventEntityList ->
+                adapter.updateEvents(eventEntityList.map { event ->
+                    EventData(event.id, event.activityName, event.location, event.description,
+                        event.dateTime, event.imageUrl
+                    )
+                })
             }
-        )
+        })
 
-        Volley.newRequestQueue(context).add(stringRequest)
+        val recyclerView: RecyclerView = view.rootView.findViewById(R.id.events_recycler_view)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(view.context)
     }
 }
 

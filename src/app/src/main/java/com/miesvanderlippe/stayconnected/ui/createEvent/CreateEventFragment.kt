@@ -13,6 +13,7 @@ import android.os.Bundle
 import android.os.ParcelFileDescriptor
 import android.provider.MediaStore
 import android.util.Base64
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ class CreateEventFragment : Fragment() {
 
     private lateinit var viewModel: CreateEventViewModel
     private var imageData: ByteArray? = null
+    var LOGTAG = "CreateEventFragment"
 
     companion object {
         private const val IMAGE_PICK_CODE = 999
@@ -60,20 +62,22 @@ class CreateEventFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        button_img_picker.setOnClickListener {
+        upload_image_button.setOnClickListener {
             selectImage()
         }
 
-        button.setOnClickListener {
+        save_event_button.setOnClickListener {
+            Log.d(LOGTAG, "Buttonclick")
             val userKey = CheckLogin(view.context).getUserToken()
             val userEmail = CheckLogin(view.context).getUserEmail()
             val user = User(userEmail, userKey, "None")
-            val eventName = textInputEditTextName.text.toString()
-            val eventLoc = textInputEditTextLoc.text.toString()
-            val eventDesc = textInputEditTextDesc.text.toString()
-            val eventDate = textInputEditTextDate.text.toString()
+            val eventName = name_event.text.toString()
+            val eventLoc = location_event.text.toString()
+            val eventDesc = description_event.text.toString()
+            val eventDate = date_event.text.toString()
             val eventId = ""
-            CreateEvent(
+
+            val event = CreateEvent(
                 view.context,
                 user,
                 eventName,
@@ -81,7 +85,9 @@ class CreateEventFragment : Fragment() {
                 eventDesc,
                 eventDate,
                 eventId
-            ).uploadImage(view.context, ::callback)
+            )
+            event.imageData = imageData
+            event.uploadImage(view.context, ::callback)
 
         }
         super.onViewCreated(view, savedInstanceState)
@@ -99,16 +105,24 @@ class CreateEventFragment : Fragment() {
         val intent = Intent()
         intent.setType("image/*")
         intent.setAction(Intent.ACTION_GET_CONTENT)
-        startActivityForResult(intent, IMG_REQUEST)
+        startActivityForResult(intent, IMAGE_PICK_CODE)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+            Log.d(LOGTAG, "RESULT OK")
             val uri = data?.data
+            Log.d(LOGTAG, "URI" + uri.toString())
             if (uri != null) {
+                Log.d(LOGTAG, "URI NOT NULL")
                 imageView2.setImageURI(uri)
-                imageData = CreateImageData().createImageData(, uri)
+                Log.d(LOGTAG, "Set the fucking imageview (never happens yolo)")
+                imageData = CreateImageData().createImageData(this.context!!, uri)
             }
+        }
+        else
+        {
+            Log.d(LOGTAG, "RESULT NOT OK" + resultCode)
         }
         super.onActivityResult(requestCode, resultCode, data)
 

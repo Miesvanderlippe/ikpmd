@@ -1,5 +1,6 @@
 package com.miesvanderlippe.stayconnected.Events
 
+import android.util.Log
 import com.android.volley.*
 import com.android.volley.toolbox.HttpHeaderParser
 import java.io.*
@@ -33,34 +34,48 @@ open class VolleyFileUploadRequest(
 
     @Throws(AuthFailureError::class)
     override fun getBody(): ByteArray {
+        Log.d("Custom HTTP BS", "Getting body...")
         val byteArrayOutputStream = ByteArrayOutputStream()
         val dataOutputStream = DataOutputStream(byteArrayOutputStream)
         try {
             if (params != null && params.isNotEmpty()) {
+                Log.d("Custom HTTP BS", "processParams?")
                 processParams(dataOutputStream, params, paramsEncoding)
             }
             val data = getByteData() as? Map<String, FileDataPart>?
             if (data != null && data.isNotEmpty()) {
+                Log.d("Custom HTTP BS", "Process data")
                 processData(dataOutputStream, data)
             }
+            else
+            {
+                Log.d("Custom HTTP BS", "Data null")
+            }
+            Log.d("Custom HTTP BS", "Writing bytes...")
             dataOutputStream.writeBytes(divider + boundary + divider + ending)
             return byteArrayOutputStream.toByteArray()
 
         } catch (e: IOException) {
+            Log.d("Custom HTTP BS", "Got fucked")
             e.printStackTrace()
         }
+        Log.d("Custom HTTP BS", "Returning...")
         return super.getBody()
     }
 
     @Throws(AuthFailureError::class)
     open fun getByteData(): Map<String, Any>? {
+        Log.d("Custom HTTP BS", "RETURNING NULL YOLO")
         return null
     }
 
     override fun parseNetworkResponse(response: NetworkResponse): Response<NetworkResponse> {
+        Log.d("Custom HTTP BS", "Parsing network response")
         return try {
+            Log.d("Custom HTTP BS", "Yay success")
             Response.success(response, HttpHeaderParser.parseCacheHeaders(response))
         } catch (e: Exception) {
+            Log.d("Custom HTTP BS", "Not success" + e.toString())
             Response.error(ParseError(e))
         }
     }

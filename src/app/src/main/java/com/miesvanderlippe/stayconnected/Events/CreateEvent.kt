@@ -24,69 +24,43 @@ class CreateEvent (
     val eventDate: String,
     val eventId: String
     ) {
-    private lateinit var imageView: ImageView
-    private var imageData: ByteArray? = null
+
+    var imageData: ByteArray? = null
     private val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=create_event"
-
-    val queue = Volley.newRequestQueue(context)
-
-    fun createEvent(callback:(result: Boolean) -> Unit) {
-
-        val postRequest: StringRequest = object : StringRequest(
-            Request.Method.POST, url,
-            Response.Listener<String> { responseString ->
-                val gson = GsonBuilder().create()
-                val data = gson.fromJson(responseString, apiData::class.java)
-                val dataStorage = DataStorage(context, user)
-                if (data.success == "true") {
-                    callback(true)
-                } else {
-                    Log.d("CreateEvent", "Failed to create event!")
-                    println(data.toString())
-                    callback(false)
-                }
-
-            },
-            Response.ErrorListener { volleyError ->
-                Log.d("Volley Error", volleyError.message)
-            }) {
-
-            override fun getParams(): Map<String, String> {
-                val params: MutableMap<String, String> = HashMap()
-                if (eventId != "") {
-                    params["event-id"] = eventId
-                }
-                params["email"] = user.email
-                params["token"] = user.key
-                params["image-event"] = eventImage
-                params["name-event"] = eventName
-                params["location-event"] = eventLoc
-                params["desc-event"] = eventDesc
-                params["date-event"] = eventDate
-                return params
-            }
-        }
-        queue.add(postRequest)
-    }
+    var LOGTAG = "CreateEvent"
 
     fun uploadImage(context: Context, callback:(result: Boolean) -> Unit) {
-        imageData?: return
+        Log.d(LOGTAG, "function called")
+
         val request = object : VolleyFileUploadRequest(
             Method.POST,
             url,
             Response.Listener {
+                Log.d(LOGTAG, "Got response" + it.statusCode)
+
                 println("response is: $it")
             },
             Response.ErrorListener {
+                for(element in it.stackTrace)
+                {
+                    Log.d(LOGTAG, "Stackstrace" + element.toString())
+                }
                 println("error is: $it")
             }
         ) {
             override fun getByteData(): MutableMap<String, FileDataPart> {
+                Log.d(LOGTAG, "Getting bytedata")
+                if(imageData == null)
+                {
+                    Log.d(LOGTAG, "Nahh")
+                }
                 var params = HashMap<String, FileDataPart>()
                 params["image-event"] = FileDataPart("image", imageData!!, "jpeg")
+                Log.d(LOGTAG, "Returning bytedata")
                 return params
             }
             override fun getParams(): Map<String, String> {
+                Log.d(LOGTAG, "Getting params")
                 val params: MutableMap<String, String> = HashMap()
                 if (eventId != "") {
                     params["event-id"] = eventId
@@ -100,6 +74,7 @@ class CreateEvent (
                 return params
             }
         }
+        Log.d(LOGTAG, "adding to queueue")
         Volley.newRequestQueue(context).add(request)
     }
 

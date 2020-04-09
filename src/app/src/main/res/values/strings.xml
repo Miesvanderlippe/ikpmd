@@ -13,11 +13,8 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
-<<<<<<< HEAD
     <string name="menu_events">Events</string>
     <string name="menu_single_event">Single Event</string>
-=======
-
     <string name="error_message_email">Invalid email</string>
     <string name="login_button">Inloggen</string>
     <string name="wait_on_auth"> </string>
@@ -25,5 +22,4 @@
     <string name="error_failed_auth">Invalid credentials</string>
     <string name="logged_in">You are logged in</string>
     <string name="default_login_name">Niemand</string>
->>>>>>> login-screen
 </resources>

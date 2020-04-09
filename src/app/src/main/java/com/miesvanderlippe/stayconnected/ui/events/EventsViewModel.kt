@@ -1,12 +1,9 @@
 package com.miesvanderlippe.stayconnected.ui.events
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.miesvanderlippe.stayconnected.repositories.EventData
 
 class EventsViewModel: ViewModel() {
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is events Fragment"
-    }
-    val text: LiveData<String> = _text
+    var events = MutableLiveData<List<EventData>>()
 }

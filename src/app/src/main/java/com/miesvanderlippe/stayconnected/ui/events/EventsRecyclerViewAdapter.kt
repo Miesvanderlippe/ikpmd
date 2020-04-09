@@ -17,14 +17,14 @@ import java.io.InputStream
 import java.net.URL
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import com.miesvanderlippe.stayconnected.repositories.EventData
 
 
 class EventsRecyclerViewAdapter(
     // Crazy constructor syntax. Ik begrijp er ook de ballen van.
-    val rawEvents: EventsFragment.RawEvents,
     val context: Context
     ) : RecyclerView.Adapter<EventsRecyclerViewAdapter.ViewHolder>() {
-
+        var events = emptyList<EventData>()
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_testing_list_item, parent, false)
@@ -34,18 +34,22 @@ class EventsRecyclerViewAdapter(
         }
 
         override fun getItemCount(): Int {
-            return rawEvents.events.count()
+            return events.count()
         }
 
+        fun updateEvents(events: List<EventData>) {
+            this.events = events
+            notifyDataSetChanged()
+        }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int)
         {
             val url = "http://stay-connected.miesvanderlippe.com/img/events/"
-            holder.imageName.text = rawEvents.events[position].ActivityName
-            holder.data = rawEvents.events[position]
-            println(url + rawEvents.events[position].Image)
+            holder.imageName.text = events[position].ActivityName
+            holder.data = events[position]
+            println(url + events[position].Image)
             Glide.with(this.context)
-                .load(url + rawEvents.events[position].Image)
+                .load(url + events[position].Image)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(holder.image)
         }
@@ -55,13 +59,13 @@ class EventsRecyclerViewAdapter(
             val image: ImageView
             val imageName: TextView
             val button: Button
-            var data: EventsFragment.EventData
+            var data: EventData
 
             constructor(itemView: View) : super(itemView) {
                 image = itemView.findViewById(R.id.testing_layout_list_item_image)
                 imageName = itemView.findViewById(R.id.testing_layout_list_item_name)
                 button = itemView.findViewById(R.id.testing_layout_list_item_button)
-                data = EventsFragment.EventData(0, "","",
+                data = EventData(0, "","",
                     "","","")
 
                 button.setOnClickListener{

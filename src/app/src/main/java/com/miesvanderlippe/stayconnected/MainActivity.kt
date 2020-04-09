@@ -33,9 +33,19 @@ class UpdateUsernameListener : DrawerLayout.DrawerListener{
 
     override fun onDrawerOpened(drawerView: View) {
         val username = drawerView.findViewById<TextView>(R.id.header_user_name)
-        username.text = CheckLogin(drawerView.context).getUserName()
         val email = drawerView.findViewById<TextView>(R.id.header_user_email)
-        email.text = CheckLogin(drawerView.context).getUserEmail()
+
+        var newUsername =  CheckLogin(drawerView.context).getUserName()
+        var newEmail = CheckLogin(drawerView.context).getUserEmail()
+
+        // CheckLogin could also just return nonetype, but doesn't. So stringcompare.
+        if(newUsername == "None") {
+            username.text = drawerView.context.getString(R.string.default_login_name)
+            email.text = drawerView.context.getString(R.string.default_login_email)
+        } else {
+            username.text = newUsername
+            email.text = newEmail
+        }
     }
 }
 

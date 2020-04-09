@@ -21,5 +21,6 @@
     <string name="logout_button">Uitloggen</string>
     <string name="error_failed_auth">Invalid credentials</string>
     <string name="logged_in">You are logged in</string>
-    <string name="default_login_name">Niemand</string>
+    <string name="default_login_name">Niet ingelogd</string>
+    <string name="default_login_email">Meld je aan via het beginscherm.</string>
 </resources>

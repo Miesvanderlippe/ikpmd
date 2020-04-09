@@ -22,6 +22,7 @@ import com.miesvanderlippe.stayconnected.storage.DataStorage
 import kotlinx.android.synthetic.main.nav_header_main.*
 
 class UpdateUsernameListener : DrawerLayout.DrawerListener{
+    val LOGKEY = "UpdateUsernameListener"
     override fun onDrawerStateChanged(newState: Int) {
     }
 
@@ -32,6 +33,7 @@ class UpdateUsernameListener : DrawerLayout.DrawerListener{
     }
 
     override fun onDrawerOpened(drawerView: View) {
+        Log.d(LOGKEY, "Drawer opened")
         val username = drawerView.findViewById<TextView>(R.id.header_user_name)
         val email = drawerView.findViewById<TextView>(R.id.header_user_email)
 
@@ -40,9 +42,11 @@ class UpdateUsernameListener : DrawerLayout.DrawerListener{
 
         // CheckLogin could also just return nonetype, but doesn't. So stringcompare.
         if(newUsername == "None") {
+            Log.d(LOGKEY, "Setting default texts")
             username.text = drawerView.context.getString(R.string.default_login_name)
             email.text = drawerView.context.getString(R.string.default_login_email)
         } else {
+            Log.d(LOGKEY, "Setting username & email")
             username.text = newUsername
             email.text = newEmail
         }

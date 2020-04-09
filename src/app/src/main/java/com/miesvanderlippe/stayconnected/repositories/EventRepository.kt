@@ -19,10 +19,12 @@ class EventRepository {
     private val eventDao: EventDao
     private var requestQue: RequestQueue
     private var remoteEventRepository: RemoteEventRespository
+    val LOGKEY = "EventRespository"
 
     constructor(lifecycle: LifecycleOwner, viewContext: Context, eventDao: EventDao) {
-        this.eventDao = eventDao
+        Log.d(LOGKEY, "Creating new EventRespository")
 
+        this.eventDao = eventDao
         this.allEvents = MutableLiveData()
 
         eventDao.getAllEvents().observe(lifecycle, Observer { events ->
@@ -36,15 +38,17 @@ class EventRepository {
         remoteEventRepository.fetchJSON()
 
         remoteEventRepository.events.observe(lifecycle, Observer { eventObjs ->
+            Log.d(LOGKEY, "Received new events from API!")
             if(eventObjs !== null)
             {
                 this.allEvents.value = eventObjs.map { event ->
-                    Log.d("FuckingEvent", event.ID.toString() + event.ActivityName + event.activityLocation + event.Description + "Non" + event.Image )
+                    Log.d(LOGKEY, "Adding the following event: " + event.ID.toString() + event.ActivityName + event.activityLocation + event.Description + "Non" + event.Image )
                     EventEntitiy(event.ID, event.ActivityName ?: "", event.activityLocation ?: "", event.Description ?: "",
-                        "Non", event.Image, false)
+                        event.EventDateTime ?: "", event.Image, false)
                 }
                 GlobalScope.launch()
                 {
+                    Log.d(LOGKEY, "Ordering cache-refresh")
                     refreshCache()
                 }
             }
@@ -53,9 +57,11 @@ class EventRepository {
 
     suspend fun refreshCache()
     {
+        Log.d(LOGKEY, "Starting cache-refresh (deleting old cache)")
         eventDao.deleteAll()
         if(this.allEvents.value !== null)
         {
+            Log.d(LOGKEY, "Found new values")
             for(item in this.allEvents.value!!)
             {
                 eventDao.insert(item)

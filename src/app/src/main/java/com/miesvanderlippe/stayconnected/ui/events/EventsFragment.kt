@@ -13,13 +13,17 @@ import com.miesvanderlippe.stayconnected.R
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import com.miesvanderlippe.stayconnected.data.EventDao
+import com.miesvanderlippe.stayconnected.data.EventDao_Impl
+import com.miesvanderlippe.stayconnected.data.StayConDatabase
+import com.miesvanderlippe.stayconnected.repositories.EventData
+import com.miesvanderlippe.stayconnected.repositories.EventRepository
 import com.miesvanderlippe.stayconnected.repositories.RemoteEventRespository
 
 
 class EventsFragment: Fragment() {
     private lateinit var eventsViewModel: EventsViewModel
-    private var remoteEventRepository: RemoteEventRespository? = null
-    private var requestQue: RequestQueue? = null
+    private var eventRepository: EventRepository? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,16 +43,21 @@ class EventsFragment: Fragment() {
         println("onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
+        val dao = StayConDatabase.getDatabase(view.context).eventDao()
+        eventRepository = EventRepository(viewLifecycleOwner, view.context, dao)
+
         val adapter = EventsRecyclerViewAdapter(view.context)
-        requestQue = Volley.newRequestQueue(view.context)
-        remoteEventRepository = RemoteEventRespository(requestQue!!)
 
-        remoteEventRepository!!.events.observe(viewLifecycleOwner, Observer { events ->
+        eventRepository!!.allEvents.observe(viewLifecycleOwner, Observer { allEvents ->
             // Update the cached copy of the words in the adapter.
-            events?.let { adapter.updateEvents(it) }
+            allEvents?.let {eventEntityList ->
+                adapter.updateEvents(eventEntityList.map { event ->
+                    EventData(event.id, event.activityName, event.location, event.description,
+                        event.dateTime, event.imageUrl
+                    )
+                })
+            }
         })
-
-        remoteEventRepository!!.fetchJSON()
 
         val recyclerView: RecyclerView = view.rootView.findViewById(R.id.events_recycler_view)
         recyclerView.adapter = adapter

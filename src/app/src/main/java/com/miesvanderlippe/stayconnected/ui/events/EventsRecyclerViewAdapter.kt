@@ -73,8 +73,7 @@ class EventsRecyclerViewAdapter(
                     val intent = Intent(itemView.context, EventDetailActivity::class.java)
                     val b = Bundle()
 
-                    b.putString("image", "http://stay-connected.miesvanderlippe.com/img/events/" + data.Image)
-                    b.putString("title", data.ActivityName)
+                    b.putSerializable("event_data", data)
 
                     intent.putExtras(b)
 

@@ -23,6 +23,10 @@ class CheckLogin (context: Context) {
         return userData.getString(PREFERENCE_USER_EMAIL, "None").toString()
     }
 
+    fun getUserToken(): String {
+        return userData.getString(PREFERENCE_USER_KEY, "None").toString()
+    }
+
 
     fun checkLogin() : Boolean {
         val loggedIn = getUserKey()

@@ -25,4 +25,10 @@
     <string name="menu_events">Events</string>
     <string name="menu_single_event">Single Event</string>
 
+    <string name="event_name">Naam</string>
+    <string name="event_img">Foto</string>
+    <string name="event_desc">Beschrijving</string>
+    <string name="event_loc">Locatie</string>
+    <string name="event_date">Datum</string>
+
 </resources>

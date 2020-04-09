@@ -52,4 +52,10 @@
         android:name="com.miesvanderlippe.stayconnected.ui.events.EventsFragment"
         android:label="@string/menu_single_event"
         tools:layout="@layout/fragment_expanded_event" />
+
+    <fragment
+        android:id="@+id/nav_create_event"
+        android:name="com.miesvanderlippe.stayconnected.ui.createEvent.CreateEventFragment"
+        android:label="@string/menu_send"
+        tools:layout="@layout/create_event_fragment" />
 </navigation>

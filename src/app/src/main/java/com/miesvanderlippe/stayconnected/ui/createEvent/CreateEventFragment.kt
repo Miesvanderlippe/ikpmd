@@ -68,7 +68,6 @@ class CreateEventFragment : Fragment() {
             val userKey = CheckLogin(view.context).getUserToken()
             val userEmail = CheckLogin(view.context).getUserEmail()
             val user = User(userEmail, userKey, "None")
-            val eventImage = ""
             val eventName = textInputEditTextName.text.toString()
             val eventLoc = textInputEditTextLoc.text.toString()
             val eventDesc = textInputEditTextDesc.text.toString()
@@ -77,7 +76,6 @@ class CreateEventFragment : Fragment() {
             CreateEvent(
                 view.context,
                 user,
-                eventImage,
                 eventName,
                 eventLoc,
                 eventDesc,

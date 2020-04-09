@@ -18,7 +18,6 @@ import java.io.IOException
 class CreateEvent (
     val context: Context,
     val user: User,
-    val eventImage: String,
     val eventName: String,
     val eventLoc: String,
     val eventDesc: String,

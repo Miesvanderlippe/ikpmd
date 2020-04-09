@@ -1,6 +1,7 @@
 package com.miesvanderlippe.stayconnected
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.navigation.findNavController
@@ -13,6 +14,31 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.view.View
+import android.widget.TextView
+import com.miesvanderlippe.stayconnected.login.CheckLogin
+import com.miesvanderlippe.stayconnected.modal.User
+import com.miesvanderlippe.stayconnected.storage.DataStorage
+import kotlinx.android.synthetic.main.nav_header_main.*
+
+class UpdateUsernameListener : DrawerLayout.DrawerListener{
+    override fun onDrawerStateChanged(newState: Int) {
+    }
+
+    override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+    }
+
+    override fun onDrawerClosed(drawerView: View) {
+    }
+
+    override fun onDrawerOpened(drawerView: View) {
+        val username = drawerView.findViewById<TextView>(R.id.header_user_name)
+        username.text = CheckLogin(drawerView.context).getUserName()
+        val email = drawerView.findViewById<TextView>(R.id.header_user_email)
+        email.text = CheckLogin(drawerView.context).getUserEmail()
+    }
+}
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,9 +52,10 @@ class MainActivity : AppCompatActivity() {
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            Snackbar.make(view, "emptied stored key", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val navController = findNavController(R.id.nav_host_fragment)
@@ -39,6 +66,8 @@ class MainActivity : AppCompatActivity() {
             R.id.nav_tools, R.id.nav_share, R.id.nav_send, R.id.nav_event_list), drawerLayout)
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        drawerLayout.addDrawerListener(UpdateUsernameListener())
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -50,4 +79,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+
 }

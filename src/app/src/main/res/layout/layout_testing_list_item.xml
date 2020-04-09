@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/testing_layout_list_item_name"
                 android:layout_alignParentRight="true"
+                android:id="@+id/testing_layout_list_item_button"
                 android:text="Button"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

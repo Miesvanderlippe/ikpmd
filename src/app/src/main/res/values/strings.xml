@@ -2,8 +2,8 @@
     <string name="app_name">StayConnected</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">Stay Connected</string>
+    <string name="nav_header_subtitle">Iets van een website</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -21,4 +21,8 @@
     <string name="error_failed_auth">Invalid credentials</string>
     <string name="logged_in">You are logged in</string>
     <string name="default_login_name">Niemand</string>
+
+    <string name="menu_events">Events</string>
+    <string name="menu_single_event">Single Event</string>
+
 </resources>

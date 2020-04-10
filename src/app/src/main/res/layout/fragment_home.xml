@@ -28,7 +28,7 @@
                 android:id="@+id/textInputEditTextEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="example@email.com"
+                android:hint="@string/login_email_hint"
                 android:inputType="text"
                 android:maxLines="1"
                 android:textColor="@android:color/black" />
@@ -44,7 +44,7 @@
                 android:id="@+id/textInputEditTextPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password123"
+                android:hint="@string/login_password_hint"
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:textColor="@android:color/black" />

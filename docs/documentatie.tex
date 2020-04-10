@@ -288,6 +288,45 @@ eventRepository!!.queueRefresh()
 	%% Dit kunnen bijvoorbeeld zijn;hamburger menumaken, gebruik van fragments, animaties, externe 
 	%% libraries gebruiken e.d.Als je wireframes hebt gemaakt voor het ontwerpen van je app mag je deze 
 	%% ook aanleveren.
+	\subsection{De basis app}
+	Deze app maakt gebruik van een Drawer Menu Activity. Dit betekent dat alle inhoud verstopt zit in fragments
+	en dat dus enig tutorial niet zonder aanpassingen werkt. Hieraan zijn eigen fragments toegevoegd, is een 
+	app-icoon voor gemaakt en is eigenlijk alle inhoud aangepast. 
+	
+	\subsection{Kotlin}
+	Deze app is ook niet geschreven in Java. In plaats daarvan is er  - in overleg -gekozen om Kotlin te gebruiken. 
+	Dit, omdat deze taal wat modernere syntax kent en Mies een verwent en eigenwijs C\# programmeur is.
+
+	\subsection{androidx.room}
+	Een andere eigenwijsheid is het absoluut zo min mogelijk willen schrijven van queries. Of het in dit project 
+	tijd bespaard heeft? Waarschijnlijk niet. 
+	
+	Room is een framework waarin op een keurige manier de data gescheiden wordt van de bron. Het bied enkele 
+	abstracties van de database zelf, een architectuur voor het aanleveren van data en systemen voor het 
+	inregelen van de lifetime van de data. Het doel van Room is o.a. caching waar het in dit project voor gebruikt 
+	is. 
+	
+	\vspace{1em}
+	Deze uitleg en tutorial is gevolgd: https://codelabs.developers.google.com/codelabs/android-room-with-a-view-kotlin/
+	
+	\subsection{Eigen drawables}
+	Vanuit SVG's is er voor dit project een schaalbaar app-icon gemaakt en een custom icoon voor in het menu gemaakt.
+	Hiervoor is ook de ingebouwde 'Asset Studio' gebruikt wat eigenlijk meer een veredelde import is.
+	
+	\subsection{De gehele API}
+	Voor dit project is ook een API geschreven in PHP. Deze praat met een bestaande database om de gegevens door te geven. 
+	De development website is ook beschikbaar op: 
+	
+	http://stay-connected.miesvanderlippe.com/
+	
+	Deze pagina geeft ook dezelfde gegevens weer als die in de app zichtbaar zijn. 
+	
+	\subsection{Afbeeldingen uploaden}
+	Standaard is het best lastig om een afbeelding te uploaden. Om dit toe te staan is gebruik gemaakt van een custom 
+	request dat multi-part data ondersteund: 
+	
+	https://medium.com/better-programming/how-to-upload-an-image-file-to-your-server-using-volley-in-kotlin-a-step-by-step-tutorial-23f3c0603ec2
+	
 	
 	\section{Git}
 	%% De link naar de GIT repository met een beschrijving van de gebruikte branches. 

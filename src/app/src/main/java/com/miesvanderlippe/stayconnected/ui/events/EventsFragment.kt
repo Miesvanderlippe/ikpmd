@@ -40,7 +40,6 @@ class EventsFragment: Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        println("onViewCreated")
         super.onViewCreated(view, savedInstanceState)
 
         val dao = StayConDatabase.getDatabase(view.context).eventDao()

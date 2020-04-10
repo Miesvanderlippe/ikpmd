@@ -16,6 +16,12 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:id="@+id/not_logged_in"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/not_logged_in"/>
+
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="match_parent"
@@ -27,30 +33,30 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/imageView2"
+                android:layout_below="@+id/imageView2"
                 android:padding="8dp"
                 android:paddingBottom="100dp">
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Afbeelding uploaden"
+                    android:text="@string/upload_image"
                     android:id="@+id/upload_image_button"
                     android:layout_marginTop="16dp"/>
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Naam evenement"
+                    android:hint="@string/name_event_hint"
                     android:id="@+id/name_event"
                     android:layout_marginTop="8dp"
-                    android:layout_below="@id/upload_image_button"
+                    android:layout_below="@+id/upload_image_button"
                 />
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Omschrijving evenement"
+                    android:hint="@string/event_description_hint"
                     android:id="@+id/description_event"
                     android:layout_below="@id/name_event"
                     android:layout_marginTop="8dp"/>
@@ -58,15 +64,15 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Datum evenement (jjjj-mm-dd uu:mm:ss)"
+                    android:hint="@string/event_date_hint"
                     android:id="@+id/date_event"
-                    android:layout_below="@id/description_event"
+                    android:layout_below="@+id/description_event"
                     android:layout_marginTop="8dp"/>
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Locatie"
+                    android:hint="@string/event_location_hint"
                     android:id="@+id/location_event"
                     android:layout_below="@id/date_event"
                     android:layout_marginTop="8dp"/>
@@ -74,9 +80,9 @@
                 <androidx.appcompat.widget.AppCompatButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Evenement opslaan"
+                    android:text="@string/event_save"
                     android:id="@+id/save_event_button"
-                    android:layout_below="@id/location_event"/>
+                    android:layout_below="@+id/location_event"/>
 
             </RelativeLayout>
         </RelativeLayout>

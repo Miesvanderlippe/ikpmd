@@ -25,6 +25,7 @@ class EventsRecyclerViewAdapter(
     val context: Context
     ) : RecyclerView.Adapter<EventsRecyclerViewAdapter.ViewHolder>() {
         var events = emptyList<EventData>()
+        val LOGTAG = "EventsRecyclerViewAdapter"
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view: View = LayoutInflater.from(parent.context).inflate(R.layout.layout_testing_list_item, parent, false)
@@ -44,6 +45,7 @@ class EventsRecyclerViewAdapter(
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int)
         {
+            Log.d(LOGTAG, "Binding viewholder for: " + events[position].ActivityName)
             val url = "http://stay-connected.miesvanderlippe.com/img/events/"
             holder.imageName.text = events[position].ActivityName
             holder.data = events[position]
@@ -60,6 +62,7 @@ class EventsRecyclerViewAdapter(
             val imageName: TextView
             val button: Button
             var data: EventData
+            val LOGTAG = "ViewHolder"
 
             constructor(itemView: View) : super(itemView) {
                 image = itemView.findViewById(R.id.testing_layout_list_item_image)
@@ -68,11 +71,12 @@ class EventsRecyclerViewAdapter(
                 data = EventData(0, "","",
                     "","","")
 
+                Log.d(LOGTAG, "Setting buttonclick handler for: " + data.ActivityName)
                 button.setOnClickListener{
 
                     val intent = Intent(itemView.context, EventDetailActivity::class.java)
                     val b = Bundle()
-
+                    Log.d(LOGTAG, "Firing buttonclick for: " + data.ActivityName)
                     b.putSerializable("event_data", data)
 
                     intent.putExtras(b)

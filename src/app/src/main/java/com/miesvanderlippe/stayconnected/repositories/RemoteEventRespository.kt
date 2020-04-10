@@ -19,7 +19,8 @@ class EventData(
     val activityLocation: String,
     val Description: String,
     val EventDateTime: String,
-    val Image: String
+    val Image: String,
+    val UserParticipates: Boolean = false
 ) : Serializable
 
 class RemoteEventRespository {

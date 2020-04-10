@@ -3,7 +3,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Stay Connected</string>
-    <string name="nav_header_subtitle">Iets van een website</string>
+    <string name="nav_header_subtitle"> </string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
@@ -24,6 +24,8 @@
     <string name="logout_button">Uitloggen</string>
     <string name="error_failed_auth">Invalid credentials</string>
     <string name="logged_in">You are logged in</string>
+    <string name="not_logged_in">Niet ingelogd!</string>
+    <string name="detail_view">Details</string>
 
 
     <string name="event_name">Naam</string>
@@ -34,5 +36,15 @@
 
     <string name="default_login_name">Niet ingelogd</string>
     <string name="default_login_email">Meld je aan via het beginscherm.</string>
+    <string name="placeholder">Placeholder</string>
+    <string name="enroll_event">Inschrijven</string>
+    <string name="upload_image">Afbeelding uploaden</string>
+    <string name="name_event_hint">Naam evenement</string>
+    <string name="event_description_hint">Omschrijving evenement</string>
+    <string name="event_date_hint">Datum evenement (jjjj-mm-dd uu:mm:ss)</string>
+    <string name="event_location_hint">Locatie</string>
+    <string name="event_save">Evenement opslaan</string>
+    <string name="login_email_hint">example@email.com</string>
+    <string name="login_password_hint">Password123</string>
 
 </resources>

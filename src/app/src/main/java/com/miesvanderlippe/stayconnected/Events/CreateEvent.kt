@@ -1,7 +1,10 @@
 package com.miesvanderlippe.stayconnected.Events
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
+import android.widget.Button
+import android.widget.ImageView
 import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
@@ -10,50 +13,60 @@ import com.google.gson.GsonBuilder
 import com.miesvanderlippe.stayconnected.modal.User
 import com.miesvanderlippe.stayconnected.modal.apiData
 import com.miesvanderlippe.stayconnected.storage.DataStorage
+import java.io.IOException
 
 class CreateEvent (
     val context: Context,
     val user: User,
-    val eventImage: String,
     val eventName: String,
     val eventLoc: String,
     val eventDesc: String,
     val eventDate: String,
     val eventId: String
     ) {
+
+    var imageData: ByteArray? = null
     private val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=create_event"
+    var LOGTAG = "CreateEvent"
 
-    val queue = Volley.newRequestQueue(context)
+    fun uploadImage(context: Context, callback:(result: Boolean) -> Unit) {
+        Log.d(LOGTAG, "function called")
 
-    fun createEvent(callback:(result: Boolean) -> Unit) {
+        val request = object : VolleyFileUploadRequest(
+            Method.POST,
+            url,
+            Response.Listener {
+                Log.d(LOGTAG, "Got response" + it.statusCode)
 
-        val postRequest: StringRequest = object : StringRequest(
-            Request.Method.POST, url,
-            Response.Listener<String> { responseString ->
-                val gson = GsonBuilder().create()
-                val data = gson.fromJson(responseString, apiData::class.java)
-                val dataStorage = DataStorage(context, user)
-                if (data.success == "true") {
-                    callback(true)
-                } else {
-                    Log.d("CreateEvent", "Failed to create event!")
-                    println(data.toString())
-                    callback(false)
-                }
-
+                println("response is: $it")
             },
-            Response.ErrorListener { volleyError ->
-                Log.d("Volley Error", volleyError.message)
-            }) {
-
+            Response.ErrorListener {
+                for(element in it.stackTrace)
+                {
+                    Log.d(LOGTAG, "Stackstrace" + element.toString())
+                }
+                println("error is: $it")
+            }
+        ) {
+            override fun getByteData(): MutableMap<String, FileDataPart> {
+                Log.d(LOGTAG, "Getting bytedata")
+                if(imageData == null)
+                {
+                    Log.d(LOGTAG, "Nahh")
+                }
+                var params = HashMap<String, FileDataPart>()
+                params["image-event"] = FileDataPart("image", imageData!!, "jpeg")
+                Log.d(LOGTAG, "Returning bytedata")
+                return params
+            }
             override fun getParams(): Map<String, String> {
+                Log.d(LOGTAG, "Getting params")
                 val params: MutableMap<String, String> = HashMap()
                 if (eventId != "") {
                     params["event-id"] = eventId
                 }
                 params["email"] = user.email
                 params["token"] = user.key
-                params["image-event"] = eventImage
                 params["name-event"] = eventName
                 params["location-event"] = eventLoc
                 params["desc-event"] = eventDesc
@@ -61,7 +74,16 @@ class CreateEvent (
                 return params
             }
         }
-        queue.add(postRequest)
+        Log.d(LOGTAG, "adding to queueue")
+        Volley.newRequestQueue(context).add(request)
+    }
+
+    @Throws(IOException::class)
+    fun createImageData(uri: Uri) {
+        val inputStream = context.contentResolver.openInputStream(uri)
+        inputStream?.buffered()?.use {
+            imageData = it.readBytes()
+        }
     }
 
 }

@@ -411,12 +411,38 @@ eventRepository!!.queueRefresh()
 
 	\subsubsection{Aandeel in de app}
 	% De student beschrijft welke delen van de app door hem/haar gemaakt zijn.Dit is terug te vinden in de branches van de GIT-omgeving
+	Ik ben de app begonnen met het ontwikkelen van de lijst van kaartjes. Roel heeft de eerste implementatie gemaakt waarin JSON data 
+	van de API opgehaald werd en ik heb die weer omgebouwd naar caching. Roel heeft de opzet gemaakt van het aanmaken van het evenement
+	en ik heb die UI herschreven en een probleem opgelost met het versturen van de data. Veel elementen zijn opgezet door mij en afgemaakt
+	door Roel, of andersom. Immers moesten we er allebei van leren en liepen we allebei tegen problemen aan. 
+	
+	Ik ben helemaal verantwoordelijk voor de PHP API en Roel is geheel verantwoordelijk voor de SharedPreferences. 
 	\subsubsection{Reflectie op de samenwerking}
 	% Reflectie over de samenwerking en het leerproces van de student
+	Dit is niet zonder reden het zoveelste project dat ik met Roel samen doe. Hij is een betrouwbare groepsgenoot waarvan ik goed weet wat
+	hij goed kan, en waar ik hem kan helpen. Roel is beter dan ik in gewoon doorwerken, en ik heb wat meer ervaring met programmeren.
+	
+	Ik kan hier nog tal van rozen, kruizen en situaties omschrijven. Of dat wat toevoegd? Ik betwijfel het. Roel verdient elke punt van 
+	het eindcijfer.
+	
 	\subsubsection{Aanbeveling}
 	% Aanbeveling over de module op inhoudelijk gebied: de student adviseert welke onderwerpen van applicatieontwikkeling moeten blijven 
 	% in het aangeboden onderwijs en welke onderwerpen wenselijk zijn die niet zijn aangeboden, inclusief relevante verwijzingen naar
-	% ondersteunende artikelen	
+	% ondersteunende artikelen
+	Android ontwikkeling is redelijk overzichtelijk als gehouden wordt aan simpele activities en intents. In dit project zijn Roel en ik 
+	zwaar van het vertrouwde spoor afgeweken en hebben daardoor misschien meer geleerd over complexere principes. Ik denk dat fragments,
+	lifecycles en het inregelen van centrale repositories e.d. beter terug kan komen in de module. 
+	
+	Met wat uitleg ben ik ervan overtuigd dat de Room library waardevoller is dan hoe er nu omgegaan wordt met SQLite. Een query schrijven
+	kan bijna iedereen op dit punt in de opleiding, maar gebruik maken van caching en abstracties is leuk en leerzaam. 
+	
+	Voor de rest heb ik uitgevonden dat je zeker op Unix systemen vrij gemakkelijk een live schermopname kan streamen. De configuratie is
+	wat gevoelig, maar met onderstaand commando werkt het goed. Zo zou een demonstratie op afstand mogelijk worden. 
+
+	\begin{lstlisting}
+adb exec-out screenrecord --bit-rate=16m --output-format=h264 --size 1280x720 - |\
+mplayer -framedrop -fps 6000 -cache 512 -demuxer h264es -
+	\end{lstlisting}
 
 
 \end{document}

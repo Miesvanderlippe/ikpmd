@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.google.gson.GsonBuilder
+import java.io.Serializable
 
 class RawEvents(
     val events: List<EventData>
@@ -19,7 +20,7 @@ class EventData(
     val Description: String,
     val EventDateTime: String,
     val Image: String
-)
+) : Serializable
 
 class RemoteEventRespository {
     private val url = "http://stay-connected.miesvanderlippe.com/api?api_key=eVSLQUy3QNBm9HXkO9BsEPs09v2ZNA76c9byv9Pu&get=events"

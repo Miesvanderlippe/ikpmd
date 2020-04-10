@@ -77,6 +77,22 @@
 	Nadat het evenement gemaakt is, is deze gelijk te zien onder "Events". 
 	Details over een specifiek evenement zijn te zien wanneer de gebruiker op "Details" drukt onder een event.
 	Voor het bekijken van evenementen is geen login vereist. Elke gebruiker van de app kan de lijst met evenementen zien.
+	
+	\subsection{Build opties}
+	De ontwikkelde app is gemaakt met gebruik van Android SDK 29, sinds dat dit de meest recente versie van de SDK is op het moment van ontwikkeling.
+	Bij het ontwikkelen is er gebruik gemaakt van Gradle, waarbij een aantal aanpassingen gemaakt zijn. De aanpassingen zijn  een aantal dependencies, deze zijn:
+	 \begin{enumerate}
+	 	\item Volley: Voor het maken van HTTP requests
+	 	\item Gson: Voor het converteren van JSON data naar java objecten en andersom
+	 	\item Room: Voor het werken met databases
+	 	\item Glide: Voor het weergeven van foto's van externe locaties
+	 \end{enumerate}
+ 
+ 	\subsection{Gebruik}
+ 	Hieronder volgen een aantal foto's die het gebruik van de app illustreren.
+ 	CPUusage.png
+ 	RAMusage.png
+ 	Networkusage.png
 	%% Een productverslag met screenshots van alle schermen. 
 	%% Hier staat beschreven hoe de app werkt en welke (on)mogelijkheden de app heeft. Verder bevat het 
 	%% productverslag o.a.op welke versie van de Android SDK is ontwikkeld,in hoeverre het MAVEN build 
@@ -361,10 +377,22 @@ eventRepository!!.queueRefresh()
 	\subsection{Roel}
 
 	\subsubsection{Aandeel in de app}
+	Bij het maken van de app heb ik me bezig gehouden met het maken van een aantal elementen. Deze zijn:
+	\begin{enumerate}
+		\item De backend class van het loginscherm.
+		\subitem FetchKey en CheckLogin
+		\item Het opslaan van login gegevens die terug gegeven worden door de API.
+		\subitem DataStorage
+		\item Een deel van de backend class voor het maken van een nieuw event.
+		\subitem Het Event model en deel van de POST request.
+		\item Het cachen van een event wanneer deze niet volledig/succesvol is aangemaakt.
+		\subitem CreateEventCache
+	\end{enumerate}
 	% De student beschrijft welke delen van de app door hem/haar gemaakt zijn.Dit is terug te vinden in de branches van de GIT-omgeving
 	\subsubsection{Reflectie op de samenwerking}
-	% Reflectie over de samenwerking en het leerproces van de student
+	Voor mijn gevoel ging de samenwerking vrij soepel, hoewel het soms lastig is om bepaalde concepten over te dragen via chat berichten. Ook is mijn programmeer kennis vrij gelimiteerd en heb dus veel gestruikeld over soms triviale dingen. Gelukkig is Mies erg ervaren in verschillende programmeer talen, om deze reden heeft hij mij vaak bij de hand kunnen nemen en dingen op te lossen als ik er niet meer uit kwam. Mijn conclusie is dan ook, dat ik genoten heb van de samenwerking.
 	\subsubsection{Aanbeveling}
+	Over het algemeen vond ik de module vrij goed ingericht. Vooral omdat je uiteindelijk aardig wat vrijheid hebt met het ontwikkelen van de eind-app. Wat wel leuk zou zijn, is de keuze vanaf het begin om met Kotlin te werken in plaats van Java. Deze switch is ook niet al te moeilijk, sinds Android Studio Java zelf kan converteren naar Kotlin.
 	% Aanbeveling over de module op inhoudelijk gebied: de student adviseert welke onderwerpen van applicatieontwikkeling moeten blijven 
 	% in het aangeboden onderwijs en welke onderwerpen wenselijk zijn die niet zijn aangeboden, inclusief relevante verwijzingen naar
 	% ondersteunende artikelen

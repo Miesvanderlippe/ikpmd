@@ -56,6 +56,27 @@
 	\newpage
 	
 	\section{Productverslag}
+	De app die gemaakt is is als het ware een interface voor het werken met de achterliggende API.
+	In de app is het mogelijk om te authenticeren met de API door middel van het login scherm, evenementen bekijken die ook op de website te zien zijn en evenementen aanmaken.
+	
+	FOTOINLOGSCHERM - FOTOEVENTLIJST - FOTOEVENTCREATE
+	
+	Als er op de login-knop gedrukt wordt zonder dat het emailadres wat is gegeven valide is, wordt er een error bericht laten zien.
+	FOTOINVALIDEMAIL
+	Op het moment dat een gebruiker inlogd, wordt er een POST request gestuurd naar de API met het email en wachtwoord. De API geeft vervolgens,
+	bij een succesvolle login, een token terug wat voor verdere authenticatie gebruikt wordt binnen de app en om verdere userdata zoals: naam en geboortedatum
+	op te halen van de API.
+	Deze token wordt ook opgeslagen in een private SharedPreference, samen met de naam van de gebruiker, email, en admin status om de login persistent te maken
+	,en te zorgen voor persoonlijke UI elementen, zoals het laten zien van de gebruikersnaam in de drawer FOTONAAMINDRAWER
+	Wanneer iemand niet in ingelogd staat er op de plek van de gebruikersnaam dat de gebruiken niet is ingelogd en kan inloggen in het Account menu. FOTOGEENNAAMINDRAWER
+	Op het moment is voor het maken van evenementen alleen een valide login nodig. Wanneer de gebruiker niet is ingelogd kan hij geen evenementen aanmaken en krijgt dat te zien. FOTOKANGEENEVENTMAKEN
+	Wanneer een gebruiker is ingelogd kan hij een evenement aanmaken. Een evenement heeft een aantal vereisten: een naam, beschrijving, datum en een locatie. Een foto kan ook worden meegegeven,
+	hoewel dit niet verplicht is. FOTOINGEVULDEVENT Als de gebruiker vervolgens op de knop "Evenement aanmaken" drukt, wordt er een POST request naar de API gestuurd met de opties in de 
+	request body. Als het maken van het evenement succesvol is, wordt een toast zichtbaar waarin staat dat het evenement is aangemaakt. 
+	FOTOEVENTGEMAAKT
+	Nadat het evenement gemaakt is, is deze gelijk te zien onder "Events". 
+	Details over een specifiek evenement zijn te zien wanneer de gebruiker op "Details" drukt onder een event.
+	Voor het bekijken van evenementen is geen login vereist. Elke gebruiker van de app kan de lijst met evenementen zien.
 	%% Een productverslag met screenshots van alle schermen. 
 	%% Hier staat beschreven hoe de app werkt en welke (on)mogelijkheden de app heeft. Verder bevat het 
 	%% productverslag o.a.op welke versie van de Android SDK is ontwikkeld,in hoeverre het MAVEN build 

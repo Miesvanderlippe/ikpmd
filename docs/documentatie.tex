@@ -16,6 +16,8 @@
 \renewcommand{\versionnumber}{0.5.1}
 \renewcommand{\versionname}{Ontwikkelversie}
 
+
+\usepackage{listings}
 \usepackage{enumitem}
 
 \begin{document}
@@ -173,7 +175,114 @@
 	%% gemaakt worden.Tevens beschrijf je in hoeverre de app off-line kan werken.Het beschrijvenvande 
 	%% backend, het lezen uitde backenden het schrijven naar de backend zijn onderdelen van de opdracht
 	
-	\section{Eigen inbreng}
+	\subsection{De API}
+	De API is een voor dit project zelfgebakken achterkant van de website van StayConnected. Voor dit 
+	project draait deze een aparte kopie met een eigen database. Alle functies hebben een API key nodig.
+	Deze is voor nu gewoon een pre-shared key die in de app gebakken zit. Niet de meest veilige optie, 
+	maar het is dan ook maar een schoolproject. Daarbij zijn de gegevens die hiermee inzichtelijk zijn 
+	sowieso publiek. 
+	
+	Naast de api key die met alle requests meegestuurd moet worden, is er ook een persoonlijke token. Deze
+	kan opgevraagd worden via de API en werkt in combinatie met het e-mail adres van de gebruiker. Allebei
+	deze gegevens worden dan dus ook opgeslagen in de app via de private gegevens API van Android. 
+	
+	Het ondersteunt de volgende functies (de functie wordt aangegeven met de get parameter) :
+	\begin{enumerate}
+		\item events\\
+		Een lijst met evenementen. 
+		
+		\item get\_participation\\
+		POST/GET: activity\_id (Het ID van het evenement)\\
+		POST/GET: email (De e-mail van de gebruiker)\\
+		POST: token (De persoonlijke token van de gebruiker.)\\
+		Vraagt de deelname van een gebruiker op. Komt in een simpel model met alleen de waarde 'participates' 
+		
+		\item set\_participation\\
+		POST: event-id (Het ID van het evenement)\\
+		POST: email (De e-mail van de gebruiker)\\
+		POST: token (De persoonlijke token van de gebruiker.)\\
+		POST: participates (bool, of een gebruiker deel zal nemen)\\
+		Geeft de deelname van een gebruiker aan. Geeft de nieuwe status terug zoals get\_participation doet. 
+		
+		\item get\_token\\
+		POST: email (De e-mail van de gebruiker)\\
+		POST: password (Het wachtwoord van de gebruiker.)\\
+		Geeft o.a. een token terug. Alle volgende waardes zitten in de response: success, admin, token, 
+		user\_model, message. Het user model bevat wat overige informatie van de gebruiker zoals het e-mail adres.
+		
+		\item create\_event\\
+		POST: email (De e-mail van de gebruiker)\\
+		POST: token (De persoonlijke token van de gebruiker.)\\
+		POST: name-event (De naam van het evenement)\\
+		POST: location-event (De locatie waarop het evenement plaatsvind)\\
+		POST: desc-event (De omschrijving van het evenement)\\
+		POST: date-event (De datum waarop het plaatsvind jjjj-mm-dd uu:mm:ss)\\
+		POST: image-event(Een begeleidende, om-en-nabij vierkante afbeelding)\\
+		Maakt een evenement aan en reageert met een status. 
+		
+	\end{enumerate}
+
+	\subsection{Caching}
+	De evenementen worden opgeslagen in een lokale SQLite database. Hierover is meer te vertellen onder 
+	'\nameref{eigen-inbreng}'. Het e-mail adres en de token worden opgeslagen in de Shared Preferences, 
+	met de private context uiteraard. Inschrijving wordt niet bijgehouden. 
+	
+	Wanneer een gebruiker bezig is met een evenement aanmaken en de app sluit, wordt dit ook opgeslagen 
+	in shared preferences. Hiervoor is gekozen, omdat het weinig data betreft en geen collectie betreft. 
+	Had de app ook evenementen kunnen aanpassen, dan had het misschien logisch geweest een tabel bij te 
+	houden van alle huidige aanpassingen.  
+	
+	Voor beiden is een abstractie laag geschreven. Die van de gebruikers gegevens is te vinden onder 
+	login.CheckLogin en die voor evenementen is verdeeld over data.StayConDatabase, entities.EventEntity,
+	repositories.EventRepository en repositories.RemoteEventRepository. 
+	
+	\subsubsection{Offline werken}
+	De app kan dus off-line een evenement aanmaken en de bestaande evenementen weergeven. Alle andere
+	functionaliteiten vereisen een internetverbinding, want dat is inherent aan de opstelling. 
+	
+	\subsection{Werken met de abstracties}
+	De gebruikersgegevens kunnen opgehaald worden via een instantie van login.CheckLogin. Deze klasse
+	kent de functies getUserToken, getUserName, getUserEmail die allemaal doen wat er op het doosje staat. 
+	De enige kanttekening is dat de functies de string "None" teruggeven als er geen gegevens beschikbaar
+	zijn. 
+	
+	Het gebruiken van de evenementen repository vereist wat meer uitleg. Dit code voorbeeld komt uit 
+	ui.events.EventsFragment. 
+	
+	\begin{lstlisting}
+val dao = StayConDatabase.getDatabase(view.context).eventDao()
+eventRepository = EventRepository(viewLifecycleOwner, view.context, dao)
+
+val adapter = EventsRecyclerViewAdapter(view.context)
+
+eventRepository!!.allEvents.observe(viewLifecycleOwner, Observer { 
+	allEvents ->
+	// Update the cached copy of the words in the adapter.
+	allEvents?.let {eventEntityList ->
+		adapter.updateEvents(eventEntityList.map { event ->
+				EventData(event.id, event.activityName, 
+				event.location, event.description, 
+				event.dateTime, event.imageUrl
+			)
+		})
+	}
+})
+
+eventRepository!!.queueRefresh()
+
+	\end{lstlisting}
+	
+	De dao is een abstractie object van de database. Hierin liggen een reeks queries vastgelegd. Deze wordt
+	meegegeven aan de EventRepository, welke de offline collectie beheerd, en de online collectie op kan vragen. 
+	De allEvents lijst is in de eerste momenten dat de klasse geinitialiseerd wordt leeg. Op dat moment wordt 
+	asynchroon de data uit de lokale cache opgehaald. Hierom 'observen' we de collectie en werken we de collectie
+	in de adapter bij. Er vind ook nog wat mapping plaats tussen de objecten zoals die in de API gebruikt worden, 
+	en zoal die in de cache staan want dat verschilt. Dan wordt er ook nog een refresh opgevraagd wat ook 
+	a-synchroon gebeurt. Als de refresh klaar is wordt opnieuw de observer aangeroepen en update de recyclerview 
+	automatisch. Dit betekend dus ook dat als de gebruiker offline is, of traag internet heeft deze alsnog direct
+	een gevulde view te zijn krijgt. 
+	
+	\section{Eigen inbreng}\label{eigen-inbreng}
 	%% Eigen toevoeging aan de app. Een onderdeel wat niet in de les is besproken, maar welke de student 
 	%% zelf heeft uitgezocht. Wat dat onderdeel doet, inclusief bronvermelding, wordt kort besproken. 
 	%% Dit kunnen bijvoorbeeld zijn;hamburger menumaken, gebruik van fragments, animaties, externe 

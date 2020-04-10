@@ -280,3 +280,6 @@ TSWLatexianTemp*
 
 # Just put gantt.sty in directory on Windows
 **/gantt.sty
+
+# Ignore pdf output
+**/*.pdf

@@ -59,6 +59,8 @@ class EventsFragment: Fragment() {
             }
         })
 
+        eventRepository!!.queueRefresh()
+
         val recyclerView: RecyclerView = view.rootView.findViewById(R.id.events_recycler_view)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(view.context)

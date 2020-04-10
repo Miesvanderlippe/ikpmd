@@ -28,12 +28,22 @@
                 android:layout_below="@id/event_details_image"
                 android:padding="8dp">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatButton
                     app:layout_constraintTop_toTopOf="parent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Inschrijven"
+                    android:layout_alignParentRight="true"
+                    android:id="@+id/event_details_join"
+                    android:layout_marginTop="12dp"
+                    />
+
+                <TextView
+                    android:layout_marginTop="16dp"
                     android:id="@+id/event_details_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_below="@id/event_details_join"
                     android:padding="6dp"
                     android:text="Placeholder (title)"
                     android:textColor="#000"
@@ -60,13 +70,6 @@
                     android:text="Placeholder (description)"
                     android:textColor="#000"
                     android:textSize="17sp" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Inschrijven"
-                    android:layout_alignParentRight="true"
-                    android:layout_below="@id/event_details_description"/>
             </RelativeLayout>
         </RelativeLayout>
     </ScrollView>

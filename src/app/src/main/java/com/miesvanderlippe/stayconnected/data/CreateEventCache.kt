@@ -10,6 +10,7 @@ class CreateEventCache (
 ) {
     private var isCached = false
     val LOGTAG = "CreateEventCache"
+    val EmptyObjStr = "{\"eventName\":\"\",\"eventDesc\":\"\",\"eventDate\":\"\",\"eventLoc\":\"\"}"
     val PREFERENCE_EVENT_OBJECT = "CachedEvent"
     val cached = context.getSharedPreferences(PREFERENCE_EVENT_OBJECT, Context.MODE_PRIVATE)
     val cachedEditor = cached.edit()
@@ -18,28 +19,20 @@ class CreateEventCache (
     fun cacheEvent(event: Event) {
         Log.d(LOGTAG, "Trying to write cache")
         val json = gson.toJson(event)
-        cachedEditor.putString("CachedEvent", json)
+        cachedEditor.putString(PREFERENCE_EVENT_OBJECT, json)
         cachedEditor.commit()
         isCached = true
-
     }
 
     fun loadEvent() : Event {
         Log.d(LOGTAG, "Trying to write cache")
-        val json = cached.getString(PREFERENCE_EVENT_OBJECT, "None")
+        val json = cached.getString(PREFERENCE_EVENT_OBJECT, EmptyObjStr)
         return gson.fromJson(json, Event::class.java)
     }
 
     fun destroyEvent() {
         Log.d(LOGTAG, "Trying to remove cached event")
-        cachedEditor.putString(PREFERENCE_EVENT_OBJECT, "None")
+        cachedEditor.putString(PREFERENCE_EVENT_OBJECT, EmptyObjStr)
         isCached = false
-
     }
-
-
-
-
-
-
 }

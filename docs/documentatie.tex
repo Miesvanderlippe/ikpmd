@@ -60,12 +60,94 @@
 	%% script is aangepast voor de applicatiemet een kleine uitleg, screenshots van de network statistics, 
 	%% CPU-loaden memory usage opgenomen uit de DDMS.
 	
+	\section{Wat is StayConnected eigenlijk?}
+	Tekst
+	
+	\newpage
+	
 	\section{Design}
 	%% Een beschrijving van de gemaakte interface elementen, zoals buttons, invoervelden, toast msg 
 	%% en/of snackbars. Er wordt een versie van een lijstgemaakt(bijvoorbeeld de ListView) Er wordt 
 	%% gebruik gemaakt van parameter passing. Er wordt een manier van data visualisatiegemaakt om 
 	%% gegevens inzichtelijk te maken.Tevens beschijf je kort hoe je material design hebt toegepast 
 	%% in je app.
+	
+	
+	\subsection{Het menu}
+	Voor deze app is gebruik gemaakt van de app met menu template. In het menu worden de verschillende 
+	mogelijkheden van de app getoond. Voor de account optie is een apart icoon gemaakt, voor de andere
+	twee is gekozen voor iets dat in de buurt komt van een passend icoon en dat al in het template zat. 
+	
+	Zoals te zien is wordt de tekst bij het account aangepast als de gebruiker inlogt. 
+	
+	\begin{minipage}{0.50\textwidth}
+		\begin{center}
+			\includegraphics[width=5cm]{images/nietingelogd.png}		
+		\end{center}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.50\textwidth}
+		\begin{center}
+			\includegraphics[width=5cm]{images/ingelogd.png}
+		\end{center}
+	\end{minipage}
+	
+	
+	\subsection{De evenementen lijst}
+	\begin{minipage}{0.60\textwidth}
+	Een belangrijk design element in deze app is de lijst met kaartjes waarin de evenementen weergegeven
+	worden. De combinatie van een afbeelding, tekst en knop geven veel ruimte voor het toepassen van de 
+	richtlijnen en grafische elementen. 
+	
+	Zoals te zien is heeft de kaart een kleine 'hoogte' om zo een ruimtelijk effect te geven. De hoeken 
+	zijn enigszins afgerond zonder dat het kitscherig wordt. De afbeelding vult het kaartje tot aan de 
+	rand, wat rustiger is dan een randje eromheen laten. 
+	
+	Technisch is het een RecyclerView met daarin Cardviews, een RelativeLayout, een ImageView, wat 
+	teksten en een knop.
+	
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.35\textwidth}
+	\includegraphics[width=\linewidth]{images/cardlist.png}
+	\end{minipage}
+	
+	\subsection{Het account}
+	Een gebruiker kan in- en uitloggen. Hier wordt gebruik gemaakt van de hints in de tekstinvoer. Voor 
+	de rest is het een vrij eenvoudige layout. 
+	
+	\begin{minipage}{0.50\textwidth}
+		\begin{center}
+			\includegraphics[width=5cm]{images/inloggen.png}		
+		\end{center}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.50\textwidth}
+		\begin{center}
+			\includegraphics[width=5cm]{images/uitloggen.png}
+		\end{center}
+	\end{minipage}
+	
+	
+	\subsection{De detailpagina}
+	\begin{minipage}{0.60\textwidth}
+	Een gebrek aan design is ook design toch? Voor de detailpagina is gekozen voor een robuste, eenvoudige
+	weergave. Voor de deelname knop wordt na het laden de status van inschrijving opgehaald. Op basis daarvan
+	wordt het een deelnemen- of verlaten- knop. De knop wordt dus ook verborgen voor niet ingelogde gebruikers
+	of wanneer er geen verbinding is. Ook de balk bovenin is weggelaten omdat het idee is dat deze informatie
+	over de app heen ligt. Als de inhoud te lang wordt, kan de gebruiker scrollen. 
+	
+	Deze weergave bevat vooral informatie uit het EventData object. Deze wordt geserializeerd en meegegeven 
+	via de intent informatie bundel. De informatie over deelname wordt naderhand opgehaald aan de hand van 
+	centraal geregelde informatie over de ingelogde gebruiker, en een repository voor evenementen. 
+
+	
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.35\textwidth}
+		\includegraphics[width=\linewidth]{images/detailview.png}
+	\end{minipage}
+	
 	
 	\section{De backend}
 	%% Er is een beschrijving van de backend. Welke calls kan de API afhandelen, hoe werkt de API, waar 

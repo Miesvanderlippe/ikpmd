@@ -8,6 +8,7 @@ class CheckLogin (context: Context) {
     val PREFERENCE_USER_KEY = "Key"
     val PREFERENCE_USER_EMAIL = "Email"
     val PREFERENCE_USER_NAME = "Name"
+    val PREFERENCE_USER_ISADMIN = "isAdmin"
 
     val userData = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
 
@@ -27,9 +28,11 @@ class CheckLogin (context: Context) {
         return userData.getString(PREFERENCE_USER_KEY, "None").toString()
     }
 
+    fun getAdminStatus(): Boolean {
+        return userData.getString(PREFERENCE_USER_ISADMIN, "None").toString() == "true"
+    }
 
     fun checkLogin() : Boolean {
-        val loggedIn = getUserKey()
-        return loggedIn != "None"
+        return getUserKey() != "None"
     }
 }
